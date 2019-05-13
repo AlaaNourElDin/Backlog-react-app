@@ -1,7 +1,9 @@
 import { GET_TASKS, GET_TASK, DELETE_TASK } from "../actions/types";
 
 const initialState = {
-  tasks: {},
+  ToDo: [],
+  InProgress: [],
+  Done: [],
   task: {}
 };
 
@@ -10,7 +12,10 @@ export default function(state = initialState, action) {
     case GET_TASKS:
       return {
         ...state,
-        tasks: action.payload
+        tasks: action.payload,
+        ToDo: action.payload.ToDo,
+        InProgress: action.payload.InProgress,
+        Done: action.payload.Done
       };
     case GET_TASK:
       return {
@@ -18,10 +23,26 @@ export default function(state = initialState, action) {
         task: action.payload
       };
     case DELETE_TASK:
-      return {
-        ...state,
-        tasks: state.tasks.filter(task => task.id !== action.payload)
-      };
+      switch (action.payload.status) {
+        case "ToDo":
+          return {
+            ...state,
+            ToDo: state.ToDo.filter(task => task._id !== action.payload.id)
+          };
+        case "InProgress":
+          return {
+            ...state,
+            InProgress: state.InProgress.filter(
+              task => task._id !== action.payload.id
+            )
+          };
+        case "Done":
+          return {
+            ...state,
+            Done: state.Done.filter(task => task._id !== action.payload.id)
+          };
+      }
+
     default:
       return state;
   }

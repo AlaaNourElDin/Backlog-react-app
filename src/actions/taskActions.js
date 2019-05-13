@@ -28,25 +28,23 @@ export const getTasks = () => async dispatch => {
 
 export const getTask = (id, history) => async dispatch => {
   try {
-    const res = await axios.get(`/v1/tasks/task/${id}`);
+    const res = await axios.get(`/v1/tasks/getTaskById?id=${id}`);
 
     dispatch({
       type: GET_TASK,
       payload: res.data
     });
-  } catch (err) {
-    history.push("/");
-  }
+  } catch (err) {}
 };
 
-export const deleteTask = (id, history) => async dispatch => {
+export const deleteTask = (id, status, history) => async dispatch => {
   try {
     if (window.confirm("Are you sure to delete this?")) {
-      const res = await axios.delete(`/v1/tasks/task/${id}`);
+      const res = await axios.delete(`/v1/tasks/deleteTask?id=${id}`);
 
       dispatch({
         type: DELETE_TASK,
-        payload: id
+        payload: { id, status }
       });
     }
   } catch (err) {}

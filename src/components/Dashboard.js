@@ -14,8 +14,9 @@ class Dashboard extends Component {
   }
 
   render() {
-    const todoTasks = this.props.tasks.ToDo;
-    const inProgress = this.props.tasks.InProgress;
+    const todoTasks = this.props.ToDo;
+    const inProgress = this.props.InProgress;
+    const done = this.props.Done;
     return (
       <div className="container">
         <div className="container">
@@ -27,7 +28,7 @@ class Dashboard extends Component {
                 </div>
               </div>
               {(todoTasks || []).map(task => (
-                <TaskItem key={task.id} task={task}/>
+                <TaskItem key={task._id} task={task}/>
               ))}
             </div>
             <div className="col-md-4">
@@ -37,7 +38,7 @@ class Dashboard extends Component {
                 </div>
               </div>
               {(inProgress || []).map(task => (
-                <TaskItem key={task.id} task={task}/>
+                <TaskItem key={task._id} task={task}/>
               ))}
             </div>
             <div className="col-md-4">
@@ -46,6 +47,9 @@ class Dashboard extends Component {
                   <h3>Done</h3>
                 </div>
               </div>
+              {(done || []).map(task => (
+                <TaskItem key={task._id} task={task}/>
+              ))}
             </div>
           </div>
         </div>
@@ -54,12 +58,13 @@ class Dashboard extends Component {
   }
 }
 Dashboard.propTypes = {
-  tasks: PropTypes.object.isRequired,
   getTasks: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-  tasks: state.task.tasks
+  ToDo: state.task.ToDo,
+  InProgress: state.task.InProgress,
+  Done: state.task.Done,
 });
 
 export default connect(

@@ -8,7 +8,7 @@ class AddTask extends Component {
   constructor() {
     super();
     this.state = {
-      taskName: "",
+      name: "",
       status: ""
     };
 
@@ -24,7 +24,7 @@ class AddTask extends Component {
     e.preventDefault();
 
     const newTask = {
-      name: this.state.taskName,
+      name: this.state.name,
       status: this.state.status
     };
 
@@ -44,7 +44,7 @@ class AddTask extends Component {
                     type="text"
                     className="form-control form-control-lg"
                     name="taskName"
-                    value={this.state.taskName}
+                    value={this.state.name}
                     onChange={this.onChange}
                     placeholder="Task Name"
                   />
