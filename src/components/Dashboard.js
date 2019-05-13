@@ -1,7 +1,21 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { getTasks } from "../actions/taskActions";
+import TaskItem from "./Tasks/TaskItem";
 
-export default class Dashboard extends Component {
+class Dashboard extends Component {
+  constructor() {
+    super();
+  }
+
+  componentDidMount() {
+    this.props.getTasks();
+  }
+
   render() {
+    const todoTasks = this.props.tasks.ToDo;
+    const inProgress = this.props.tasks.InProgress;
     return (
       <div className="container">
         <div className="container">
@@ -12,19 +26,9 @@ export default class Dashboard extends Component {
                   <h3>TO DO</h3>
                 </div>
               </div>
-
-              <div className="card mb-1 bg-light">
-                <div className="card-header text-primary">
-                  ID: projectSequence
-                </div>
-                <div className="card-body bg-light">
-                  <h5 className="card-title">summary</h5>
-                  <p className="card-text text-truncate ">acceptanceCriteria</p>
-                  <a href="" className="btn btn-primary">
-                    View / Update
-                  </a>
-                </div>
-              </div>
+              {(todoTasks || []).map(task => (
+                <TaskItem key={task.id} task={task}/>
+              ))}
             </div>
             <div className="col-md-4">
               <div className="card text-center mb-2">
@@ -32,6 +36,9 @@ export default class Dashboard extends Component {
                   <h3>In Progress</h3>
                 </div>
               </div>
+              {(inProgress || []).map(task => (
+                <TaskItem key={task.id} task={task}/>
+              ))}
             </div>
             <div className="col-md-4">
               <div className="card text-center mb-2">
@@ -46,3 +53,16 @@ export default class Dashboard extends Component {
     );
   }
 }
+Dashboard.propTypes = {
+  tasks: PropTypes.object.isRequired,
+  getTasks: PropTypes.func.isRequired
+};
+
+const mapStateToProps = state => ({
+  tasks: state.task.tasks
+});
+
+export default connect(
+  mapStateToProps,
+  { getTasks }
+)(Dashboard);

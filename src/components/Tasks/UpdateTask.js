@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-export default class AddTask extends Component {
+export default class UpdateTask extends Component {
   render() {
     return (
       <div className="addProjectTask">

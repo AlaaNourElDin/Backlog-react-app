@@ -1,6 +1,10 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { createTask } from "../../actions/taskActions";
 
-export default class AddTask extends Component {
+
+class AddTask extends Component {
   constructor() {
     super();
     this.state = {
@@ -20,11 +24,11 @@ export default class AddTask extends Component {
     e.preventDefault();
 
     const newTask = {
-      taskName: this.state.taskName,
+      name: this.state.taskName,
       status: this.state.status
     };
 
-    console.log(newTask);
+    this.props.createTask(newTask, this.props.history);
   }
 
   render() {
@@ -54,9 +58,9 @@ export default class AddTask extends Component {
                     onChange={this.onChange}
                   >
                     <option value="">Select Status</option>
-                    <option value="TO_DO">TO DO</option>
-                    <option value="IN_PROGRESS">IN PROGRESS</option>
-                    <option value="DONE">DONE</option>
+                    <option value="ToDo">TO DO</option>
+                    <option value="InProgress">IN PROGRESS</option>
+                    <option value="Done">DONE</option>
                   </select>
                 </div>
                 <input
@@ -71,3 +75,17 @@ export default class AddTask extends Component {
     );
   }
 }
+
+AddTask.propTypes = {
+  createTask: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = state => ({
+ 
+});
+
+export default connect(
+  mapStateToProps,
+  { createTask }
+)(AddTask);
+
